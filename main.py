@@ -32,29 +32,31 @@ def index():
 
     return response
 
-@app.route('/hello', methods=['GET', 'POST'])
+#Quitamos el método POST de la ruta hello
+#@app.route('/hello', methods=['GET', 'POST'])
+@app.route('/hello', methods=['GET'])
 def hello():
     user_ip = session.get('user_ip')
-    login_form = LoginForm()
+    #login_form = LoginForm()
     #se obtiene username de la sesión
     username = session.get('username')
 
     context = {
         'user_ip': user_ip,
         'sections': sections,
-        'login_form': login_form,
+        #'login_form': login_form,
         #se añade username al contexto
         'username': username
 
     }
 
     # procesar datos de forma y almacenar 'username' en sesión
-    if login_form.validate_on_submit():
-        username = login_form.username.data
-        session['username'] = username
+    # if login_form.validate_on_submit():
+    #     username = login_form.username.data
+    #     session['username'] = username
 
-        #Flash para avisar username registrado
-        flash('Usuario registrado con éxito')
-        return redirect(url_for('index'))
+    #     #Flash para avisar username registrado
+    #     flash('Usuario registrado con éxito')
+    #     return redirect(url_for('index'))
 
     return render_template('hello.html', **context)
