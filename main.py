@@ -2,7 +2,6 @@ from crypt import methods
 from ensurepip import bootstrap
 import unittest
 from flask import make_response, request, redirect, render_template, session, url_for, flash
-from flask_bootstrap import Bootstrap
 import unittest
 from app import create_app
 from app.forms import LoginForm

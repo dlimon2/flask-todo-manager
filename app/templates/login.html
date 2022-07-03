@@ -1,4 +1,5 @@
 {%extends 'base.html'%}
+{%import 'bootstrap/wtf.html' as wtf%}
 
 {%block title%}
     {{super()}}
@@ -6,7 +7,5 @@
 {%endblock%}
 
 {%block content%}
-    <h1>No existe nada aquí :((((</h1>
-    <p>{{error}}</p>
-
+    {{wtf.quick_form(login_form)}}
 {%endblock%}

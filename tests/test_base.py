@@ -50,3 +50,16 @@ class MainTest(TestCase): #La clase MainTest extiende TestCase
         
         #Validamos si la acción de líneas anteriores redirigen a index
         self.assertRedirects(response, url_for('index'))
+
+    def test_auth_blueprint_exists(self):
+        #Verificar que "auth" se encuentre en los blueprints de la App
+        self.assertIn('auth', self.app.blueprints)
+
+    def test_auth_login_get(self):
+        response = self.client.get(url_for('auth.login'))
+
+        self.assert200(response)
+
+    def test_auth_login_template(self):
+        self.client.get(url_for('auth.login'))
+        self.assertTemplateUsed('login.html')
