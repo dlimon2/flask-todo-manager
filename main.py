@@ -5,11 +5,14 @@ from flask import make_response, request, redirect, render_template, session, ur
 import unittest
 from app import create_app
 from app.forms import LoginForm
-
+from flask_sqlalchemy import SQLAlchemy
 
 app = create_app();
+db = SQLAlchemy(app)
 
-sections = ['Python', 'Economía', 'Gamedev']
+from mariadb_service import get_users, get_tasks
+
+#sections = ['Python', 'Economía', 'Gamedev']
 
 @app.cli.command()
 def test():
@@ -43,7 +46,7 @@ def hello():
 
     context = {
         'user_ip': user_ip,
-        'sections': sections,
+        'tasks': get_tasks(1),
         #'login_form': login_form,
         #se añade username al contexto
         'username': username

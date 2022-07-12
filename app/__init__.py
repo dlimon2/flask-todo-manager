@@ -1,3 +1,4 @@
+#from mariadb_service import db
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from .config import Config
@@ -9,6 +10,7 @@ def create_app():
     app = Flask(__name__)
     bootstrap = Bootstrap(app)
     app.config.from_object(Config)
+    #db.init_app(app)
 
     #Se registra el blueprint auth
     app.register_blueprint(auth)
