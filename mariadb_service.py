@@ -9,8 +9,8 @@ class User(db.Model):
     username = db.Column(db.String(15), nullable=False)
 
     def __repr__(self):
-        return '<User %r>' % self.username
-
+        #return '<User %r>' % self.username
+        return self
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -20,8 +20,8 @@ class Task(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return '<Task %r>' % self.description
-
+        #return '<Task %r>' % self.description
+        return self
 #Métodos
 def get_users():
     return User.query.all()
