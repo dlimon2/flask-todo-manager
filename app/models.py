@@ -40,20 +40,3 @@ def get_users():
 
 def get_tasks(user_id):
     return Task.query.filter_by(user_id=user_id)
-
-#Modelos para Flask Login
-
-
-
-# class UserModel(UserMixin):
-#     def __init__(self, user_data):
-#         self.username = user_data.username
-#         self.password = user_data.password
-
-#     @staticmethod
-#     def query(username):
-#         user_doc = User.get_user(username)
-#         user_data = UserData(\
-#             username = user_doc.username,\
-#             password = user_doc.password)
-#         return UserModel(user_data)
