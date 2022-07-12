@@ -2,17 +2,13 @@ from crypt import methods
 from ensurepip import bootstrap
 import unittest
 from flask import make_response, request, redirect, render_template, session, url_for, flash
+from flask_login import login_required
 import unittest
 from app import create_app
 from app.forms import LoginForm
-from flask_sqlalchemy import SQLAlchemy
-
+from app.models import get_tasks
 app = create_app();
-db = SQLAlchemy(app)
 
-from mariadb_service import get_users, get_tasks
-
-#sections = ['Python', 'Economía', 'Gamedev']
 
 @app.cli.command()
 def test():
@@ -38,12 +34,10 @@ def index():
 #Quitamos el método POST de la ruta hello
 #@app.route('/hello', methods=['GET', 'POST'])
 @app.route('/hello', methods=['GET'])
+@login_required
 def hello():
     user_ip = session.get('user_ip')
-    #login_form = LoginForm()
-    #se obtiene username de la sesión
     username = session.get('username')
-
     context = {
         'user_ip': user_ip,
         'tasks': get_tasks(1),
@@ -52,14 +46,5 @@ def hello():
         'username': username
 
     }
-
-    # procesar datos de forma y almacenar 'username' en sesión
-    # if login_form.validate_on_submit():
-    #     username = login_form.username.data
-    #     session['username'] = username
-
-    #     #Flash para avisar username registrado
-    #     flash('Usuario registrado con éxito')
-    #     return redirect(url_for('index'))
 
     return render_template('hello.html', **context)

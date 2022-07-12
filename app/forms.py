@@ -6,4 +6,4 @@ class LoginForm(FlaskForm):
     #Las variables reciben un parámetro validator de DataRequired
     username = StringField('Usuario', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Enviar')
+    submit = SubmitField('Login')
