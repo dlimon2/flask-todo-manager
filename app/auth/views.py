@@ -31,3 +31,11 @@ def login():
     else:
         flash('Usuario no existe')
     return render_template('login.html', **context)
+
+@auth.route('logout')
+@login_required
+def logout():
+    logout_user()
+    flash('Bye')
+    return redirect(url_for('auth.login'))
+
