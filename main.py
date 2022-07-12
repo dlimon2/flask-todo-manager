@@ -2,7 +2,7 @@ from crypt import methods
 from ensurepip import bootstrap
 import unittest
 from flask import make_response, request, redirect, render_template, session, url_for, flash
-from flask_login import login_required
+from flask_login import login_required, current_user
 import unittest
 from app import create_app
 from app.forms import LoginForm
@@ -37,10 +37,10 @@ def index():
 @login_required
 def hello():
     user_ip = session.get('user_ip')
-    username = session.get('username')
+    username = current_user.username
     context = {
         'user_ip': user_ip,
-        'tasks': get_tasks(1),
+        'tasks': get_tasks(current_user.id),
         #'login_form': login_form,
         #se añade username al contexto
         'username': username
