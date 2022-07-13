@@ -17,7 +17,11 @@
     {%else%}
         <a href="{{url_for('index')}}">Ir a Inicio</a>
     {%endif%}
-
+    
+    <div class="container">
+        <h2>Crear Tasks en la Agenda</h2>
+        {{wtf.quick_form(task_form)}}
+    </div>
 
     <!--FOR para listar lista 'sections'-->
     {%for task in tasks%}

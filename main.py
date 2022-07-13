@@ -5,8 +5,9 @@ from flask import make_response, request, redirect, render_template, session, ur
 from flask_login import login_required, current_user
 import unittest
 from app import create_app
-from app.forms import LoginForm
-from app.models import get_tasks
+from app.forms import TaskForm
+from app.models import get_tasks, Task
+from app.extensions import db
 app = create_app();
 
 
@@ -31,20 +32,26 @@ def index():
 
     return response
 
-#Quitamos el método POST de la ruta hello
-#@app.route('/hello', methods=['GET', 'POST'])
-@app.route('/hello', methods=['GET'])
+@app.route('/hello', methods=['GET', 'POST'])
 @login_required
 def hello():
     user_ip = session.get('user_ip')
     username = current_user.username
+    #se instancia TaskForm    
+    task_form = TaskForm()
     context = {
         'user_ip': user_ip,
         'tasks': get_tasks(current_user.id),
-        #'login_form': login_form,
-        #se añade username al contexto
-        'username': username
-
+        'username': username,
+        #task form a contexto
+        'task_form': task_form
     }
+
+    if task_form.validate_on_submit():
+        task = Task(description=task_form.description.data, user_id=current_user.id)
+        db.session.add(task)
+        db.session.commit()
+        flash('Task añadido con éxito!')
+        return redirect('/hello')
 
     return render_template('hello.html', **context)
