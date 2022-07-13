@@ -1,3 +1,4 @@
+app/config.py
 venv/
 *.sh
 __pycache__/

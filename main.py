@@ -1,11 +1,9 @@
-from crypt import methods
-from ensurepip import bootstrap
 import unittest
-from flask import make_response, request, redirect, render_template, session, url_for, flash
+from flask import make_response, request, redirect, render_template, session, flash, url_for
 from flask_login import login_required, current_user
 import unittest
 from app import create_app
-from app.forms import TaskForm
+from app.forms import TaskForm, DeleteTask, UpdateTask
 from app.models import get_tasks, Task
 from app.extensions import db
 app = create_app();
@@ -36,15 +34,17 @@ def index():
 @login_required
 def hello():
     user_ip = session.get('user_ip')
-    username = current_user.username
-    #se instancia TaskForm    
+    username = current_user.username   
     task_form = TaskForm()
+    delete_form = DeleteTask()
+    update_form = UpdateTask()
     context = {
         'user_ip': user_ip,
         'tasks': get_tasks(current_user.id),
         'username': username,
-        #task form a contexto
-        'task_form': task_form
+        'task_form': task_form,
+        'delete_form': delete_form,
+        'update_form': update_form
     }
 
     if task_form.validate_on_submit():
@@ -55,3 +55,25 @@ def hello():
         return redirect('/hello')
 
     return render_template('hello.html', **context)
+
+@app.route('/tasks/delete/<task_id>', methods=['POST'])
+def delete(task_id):
+    task_ref = Task.query.filter_by(id=task_id).first()
+    db.session.delete(task_ref)
+    db.session.commit()
+    flash('Task eliminado con éxito')
+    return redirect('/hello')
+
+@app.route('/task/update/<task_id>/<int:done>', methods=['POST'])
+def update(task_id, done):
+    print(done)
+    task_ref = Task.query.filter_by(id=task_id).first()
+    if task_ref.done == True:
+        task_ref.done = False
+    else:
+        task_ref.done = True
+    db.session.add(task_ref)
+    db.session.commit()
+    flash('Acutalizado!')
+    return  redirect(url_for('hello'))
+

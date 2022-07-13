@@ -25,6 +25,7 @@ class User(UserMixin, db.Model):
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(200), nullable=False)
+    done = db.Column(db.Boolean, nullable=False, )
 
     user = db.relationship('User', backref=db.backref('tasks', lazy=True))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

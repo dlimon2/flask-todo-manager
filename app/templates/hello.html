@@ -17,16 +17,24 @@
     {%else%}
         <a href="{{url_for('index')}}">Ir a Inicio</a>
     {%endif%}
-    
+
     <div class="container">
         <h2>Crear Tasks en la Agenda</h2>
-        {{wtf.quick_form(task_form)}}
+        {{wtf.quick_form(task_form)}}<br />
+
+        <ul class="list-group">
+            <div class="row justify-content-center">
+                <div class="col-4">
+                <h3 class="title">Task List</h3>
+                {%for task in tasks%}
+                    {{macros.render_tasks(task, delete_form, update_form)}}
+                {%endfor%}
+                </div>
+            </div>
+        </ul>
+
     </div>
 
-    <!--FOR para listar lista 'sections'-->
-    {%for task in tasks%}
-        {{macros.render_tasks(task)}}
-    {%endfor%}
-    
+
 {%endblock%}
 
