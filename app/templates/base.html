@@ -1,6 +1,6 @@
-{%extends 'bootstrap/base.html'%} <!--Usamos el base-.html de BS-->
+{%extends 'bootstrap/base.html'%} 
 {%block head%}
-    {{super()}}<!--Heredamos head de BS-->
+    {{super()}}
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>
@@ -14,7 +14,7 @@
         {%include 'navbar.html'%}
     {%endblock%}
     
-    <!--Obtener mensajes de flash()-->
+
     {%for message in get_flashed_messages()%}
         <div class="alert alert-success alert-dismissible">
             <button type="button" data-dismiss="alert" class="close">

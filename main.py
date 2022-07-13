@@ -38,9 +38,10 @@ def hello():
     task_form = TaskForm()
     delete_form = DeleteTask()
     update_form = UpdateTask()
+    tasks = get_tasks(current_user.id)
     context = {
         'user_ip': user_ip,
-        'tasks': get_tasks(current_user.id),
+        'tasks': tasks,
         'username': username,
         'task_form': task_form,
         'delete_form': delete_form,
@@ -48,7 +49,7 @@ def hello():
     }
 
     if task_form.validate_on_submit():
-        task = Task(description=task_form.description.data, user_id=current_user.id)
+        task = Task(description=task_form.description.data, user_id=current_user.id, done=False)
         db.session.add(task)
         db.session.commit()
         flash('Task añadido con éxito!')
